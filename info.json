@@ -1,0 +1,11 @@
+{
+  "name": "pollution-absorber",
+  "version": "1.0.0",
+  "title": "Pollution Absorber",
+  "author": "yanhanv",
+  "factorio_version": "2.0",
+  "description": "Adds a Pollution Absorber building that burns fuel to absorb large amounts of pollution.",
+  "dependencies": [
+    "base >= 2.0.0"
+  ]
+}

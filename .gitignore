@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+generate_*.py
+pollution-absorber-backup/
