@@ -13,7 +13,7 @@ Keeps the original 80-tile sampling radius, absorption rate, energy condition an
 
 ## Measured results
 
-Tested on Factorio 2.0.77 using an early-to-mid-game save with 35 absorbers, 33 with energy. Across repeated runs, the median absorption update took 1.56–1.58 ms in the original and 0.38–0.41 ms in this fork: about 75% less time for that script update.
+Tested on Factorio 2.0.77 using an early-to-mid-game save with 35 absorbers, 33 with energy. Across repeated runs, the median absorption update took 1.56–1.58 ms in the original and 0.38–0.41 ms in version 1.0.0 of this fork: about 75% less time for that script update.
 
 This reduces the once-per-second script spike; it does not imply a 75% improvement in overall game performance. Pollution totals matched exactly at every save-comparison checkpoint. Another 280 comparisons covered chunk boundaries and low-to-high pollution, with a maximum difference of 1.8e-15 pollution units from floating-point rounding.
 
