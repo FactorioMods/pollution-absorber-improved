@@ -10,7 +10,7 @@ data:extend({
   {
     type = "reactor",
     name = "pollution-absorber",
-    icon = "__pollution-absorber__/graphics/pollution-absorber-icon.png",
+    icon = "__pollution-absorber-improved__/graphics/pollution-absorber-icon.png",
     icon_size = 64,
     flags = {"placeable-neutral", "placeable-player", "player-creation"},
     minable = {mining_time = 0.5, result = "pollution-absorber"},
@@ -47,7 +47,7 @@ data:extend({
     picture = {
       layers = {
         {
-          filename = "__pollution-absorber__/graphics/pollution-absorber.png",
+          filename = "__pollution-absorber-improved__/graphics/pollution-absorber.png",
           priority = "high",
           width = 192,
           height = 192,
