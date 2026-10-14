@@ -1,4 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.2
+Date: 2026-10-14
+  Graphics:
+    - Use a higher, axis-aligned view with a compact vented cabinet and no access door.
+    - Fit the artwork within the existing three-tile selection footprint without changing collision geometry.
+    - Give the static sprite and native fan animation identical frame dimensions, scale and anchor so the rotor stays on the visible top grille.
+    - Show a red indicator without fuel and a green indicator while the native fan animation runs.
+    - Verify adjacent inserter access on all four sides in an isolated in-game scene.
+  Info:
+    - Keep absorption behavior and the 1.0.1 performance changes unchanged.
+---------------------------------------------------------------------------------------------------
 Version: 1.0.1
 Date: 2026-10-14
   Optimizations:

@@ -1,13 +1,13 @@
--- The custom condenser sprite uses the original three-tile footprint.
+-- Static and animated sprites share the same canvas and ground anchor.
 local absorber = data.raw.reactor["pollution-absorber"]
 absorber.picture = {layers={{
   filename="__pollution-absorber-improved__/graphics/pollution-absorber.png",
-  width=512,height=512,scale=0.25,shift=util.by_pixel(0,-24)
+  width=256,height=256,scale=0.4,shift={0,0}
 }}}
 absorber.working_light_picture = {
   filename="__pollution-absorber-improved__/graphics/pollution-absorber-fan.png",
-  width=320,height=224,frame_count=24,line_length=4,
-  animation_speed=0.5,scale=0.25,shift=util.by_pixel(0,-46)
+  width=256,height=256,frame_count=24,line_length=4,
+  animation_speed=0.5,scale=0.4,shift={0,0},blend_mode="normal",draw_as_glow=false
 }
 for _,prototype in ipairs({absorber,data.raw.item["pollution-absorber"],data.raw.recipe["pollution-absorber"]}) do
   prototype.icons=nil
