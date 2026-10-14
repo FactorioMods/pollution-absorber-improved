@@ -154,6 +154,7 @@ end
 
 script.on_nth_tick(CHECK_INTERVAL, function()
   update_id = update_id + 1
+  storage.update_id = update_id
   for unit_number, entry in pairs(absorbers) do
     if not entry.entity.valid then
       remove_entry(unit_number)
@@ -166,6 +167,10 @@ end)
 local function scan_surfaces()
   absorbers = {}
   chunk_pool = {}
+  update_id = 0
+  storage.absorbers = absorbers
+  storage.chunk_pool = chunk_pool
+  storage.update_id = update_id
   for _, surface in pairs(game.surfaces) do
     for _, entity in pairs(surface.find_entities_filtered{name = ABSORBER_NAME}) do
       if entity.valid then
@@ -184,11 +189,10 @@ script.on_configuration_changed(function()
   scan_surfaces()
 end)
 
--- Local entity references are rebuilt after loading a save. The one-time
--- handler is removed immediately; ordinary ticks need no script callback.
+-- Loading and multiplayer joins must restore the same local references without
+-- changing event registrations or mutating the saved state.
 script.on_load(function()
-  script.on_event(defines.events.on_tick, function()
-    scan_surfaces()
-    script.on_event(defines.events.on_tick, nil)
-  end)
+  absorbers = storage.absorbers or {}
+  chunk_pool = storage.chunk_pool or {}
+  update_id = storage.update_id or 0
 end)

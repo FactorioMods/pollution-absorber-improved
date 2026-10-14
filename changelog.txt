@@ -1,4 +1,14 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.3
+Date: 2026-10-14
+  Bugfixes:
+    - Fix multiplayer joins being rejected because client and server event handlers differ after loading.
+    - Persist absorber and shared chunk references in save data; restore local references without registering a temporary tick handler.
+    - Rebuild existing absorber data when upgrading from earlier versions.
+  Info:
+    - Verify an actual multiplayer join after upgrading from 1.0.2, then save, reload and rejoin with 1.0.3 on Factorio 2.0.77.
+    - Verify unchanged absorption for overlapping units after reloading.
+---------------------------------------------------------------------------------------------------
 Version: 1.0.2
 Date: 2026-10-14
   Graphics:
