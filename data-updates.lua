@@ -3,7 +3,7 @@ data:extend({
   {
     type = "recipe",
     name = "pollution-absorber",
-    icon = "__pollution-absorber__/graphics/pollution-absorber-icon.png",
+    icon = "__pollution-absorber-improved__/graphics/pollution-absorber-icon.png",
     icon_size = 64,
     category = "crafting",
     enabled = true,
@@ -24,7 +24,7 @@ data:extend({
   {
     type = "item",
     name = "pollution-absorber",
-    icon = "__pollution-absorber__/graphics/pollution-absorber-icon.png",
+    icon = "__pollution-absorber-improved__/graphics/pollution-absorber-icon.png",
     icon_size = 64,
     subgroup = "production-machine",
     order = "z[pollution-absorber]",

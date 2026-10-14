@@ -1,35 +1,27 @@
-# Pollution Absorber - Factorio Mod
+# Pollution Absorber: Improved
 
-A Factorio 2.0 mod that adds a Pollution Absorber building. It functions like a heating tower — burns chemical fuel to absorb large amounts of pollution from the surrounding area.
+A fork of [Pollution Absorber](https://mods.factorio.com/mod/pollution-absorber) by yanhanv for Factorio 2.0. Burns chemical fuel to absorb nearby pollution and connects to heat pipes like a heating tower.
 
-## Features
+## Changes
 
-- Burns chemical fuel (wood, coal, solid fuel, etc.) to absorb pollution
-- Absorbs ~800 pollution per second when burning (active, 80-tile radius)
-- Passively absorbs -327 pollution per minute via emissions
-- Connects to heat pipes like a standard heating tower
-- Compatible with other mods' fuel types
+- Cache absorption sample positions instead of creating them every second.
+- Combine repeated checks of the same pollution chunk.
+- Remove an unnecessary callback running every tick; rebuild entity references once after loading a save.
+
+Keeps the original 80-tile sampling radius, absorption rate, energy condition and once-per-second schedule. Existing entity, item and recipe names are retained.
+
+## Measured results
+
+Tested on Factorio 2.0.77 using an early-to-mid-game save with 35 absorbers, 33 with energy. Across repeated runs, the median absorption update took 1.56–1.58 ms in the original and 0.38–0.41 ms in this fork: about 75% less time for that script update.
+
+This reduces the once-per-second script spike; it does not imply a 75% improvement in overall game performance. Pollution totals matched exactly at every save-comparison checkpoint. Another 280 comparisons covered chunk boundaries and low-to-high pollution, with a maximum difference of 1.8e-15 pollution units from floating-point rounding.
 
 ## Installation
 
-### From Mod Portal
-Search for "Pollution Absorber" in the in-game mod browser and install.
+Download the mod ZIP from [Releases](https://github.com/FactorioMods/pollution-absorber-improved/releases) and place it in your Factorio mods directory. Disable the original Pollution Absorber and enable this fork. Existing absorbers are rediscovered when loading the save. Multiplayer clients need the same mod version as the host.
 
-### Manual Installation
-1. Download the latest `.zip` release from [Releases](../../releases)
-2. Place it in your Factorio mods directory:
-   - **Windows:** `%AppData%\Factorio\mods\`
-   - **Linux:** `~/.factorio/mods/`
-3. Enable the mod in-game via Mods menu
+## Credits
 
-## How to Use
+Original code and artwork by yanhanv. Fork maintained by johnmart19 under the original MIT license.
 
-1. Craft the Pollution Absorber (100 iron plates + 100 copper plates)
-2. Place it near pollution sources
-3. Insert fuel (coal, wood, solid fuel, etc.)
-4. It automatically absorbs pollution in an 80-tile radius while fuel is burning
-5. Optionally connect to heat pipes for heat output
-
-## License
-
-[MIT](LICENSE)
+[Original source](https://github.com/yanhanv/pollution-absorber) · [Report an issue](https://github.com/FactorioMods/pollution-absorber-improved/issues)

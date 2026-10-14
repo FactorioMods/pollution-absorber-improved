@@ -1,11 +1,13 @@
 {
-  "name": "pollution-absorber",
+  "name": "pollution-absorber-improved",
   "version": "1.0.0",
-  "title": "Pollution Absorber",
-  "author": "yanhanv",
+  "title": "Pollution Absorber: Improved",
+  "author": "johnmart19 (fork), yanhanv (original)",
   "factorio_version": "2.0",
-  "description": "Adds a Pollution Absorber building that burns fuel to absorb large amounts of pollution.",
+  "description": "An updated fork of Pollution Absorber by yanhanv. Burns fuel to absorb nearby pollution, with fewer repeated pollution checks. Keeps the original absorption behavior.",
   "dependencies": [
-    "base >= 2.0.0"
-  ]
+    "base >= 2.0.0",
+    "! pollution-absorber"
+  ],
+  "homepage": "https://github.com/FactorioMods/pollution-absorber-improved"
 }

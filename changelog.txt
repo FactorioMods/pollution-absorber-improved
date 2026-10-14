@@ -1,0 +1,12 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.0.0
+Date: 2026-10-14
+  Features:
+    - Fork of Pollution Absorber by yanhanv, titled Pollution Absorber: Improved.
+    - Retain original absorption behavior and existing entity, item and recipe names.
+  Optimizations:
+    - Cache sample positions and combine repeated visits to the same pollution chunk.
+    - Rebuild entity references once after loading instead of keeping a permanent per-tick callback.
+  Info:
+    - Factorio 2.0.77 comparison with 35 absorbers, 33 with energy: median absorption update 1.56-1.58 ms originally and 0.38-0.41 ms in this fork.
+    - Pollution totals matched at every save-comparison checkpoint; 280 additional comparisons passed within floating-point rounding.
