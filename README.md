@@ -18,7 +18,7 @@ This reduces the once-per-second script spike; it does not imply a 75% improveme
 
 ## Installation
 
-Download the mod ZIP from [Releases](https://github.com/FactorioMods/pollution-absorber-improved/releases) and place it in your Factorio mods directory. Disable the original Pollution Absorber and enable this fork. Existing absorbers are rediscovered when loading the save. Multiplayer clients need the same mod version as the host.
+Install from the [Factorio Mod Portal](https://mods.factorio.com/mod/pollution-absorber-improved), or download the ZIP from [GitHub Releases](https://github.com/FactorioMods/pollution-absorber-improved/releases) and place it in your Factorio mods directory. Disable the original Pollution Absorber and enable this fork. Existing absorbers are rediscovered when loading the save. Multiplayer clients need the same mod version as the host.
 
 ## Credits
 
