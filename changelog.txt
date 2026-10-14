@@ -1,4 +1,16 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.1
+Date: 2026-10-14
+  Optimizations:
+    - Share pollution-chunk readings between overlapping absorbers within each update, updating cached values after every write.
+    - Reuse chunk references without allocating a new lookup cache every update; release unused references when absorbers are removed.
+  Graphics:
+    - Replace the flat entity drawing and icons with an industrial air-filter unit featuring a top fan, intake grilles and weathered metal housing.
+    - Animate the fan with native sprite frames while the unit is working; keep the housing and grille fixed.
+  Info:
+    - Isolated comparison against 1.0.0: absorption-handler time averaged 0.0049-0.0052 ms per tick instead of 0.0070-0.0078 ms, roughly 30% less script work.
+    - Preserve the once-per-second update schedule and original absorption behavior. Save-comparison pollution totals matched; 280 overlapping-absorber comparisons passed within floating-point rounding.
+---------------------------------------------------------------------------------------------------
 Version: 1.0.0
 Date: 2026-10-14
   Features:

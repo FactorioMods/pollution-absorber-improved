@@ -24,6 +24,34 @@ for dx = -ABSORPTION_RADIUS, ABSORPTION_RADIUS, 16 do
 end
 local per_point = effective_rate * 0.7 / #sample_offsets
 
+local chunk_pool = {}
+local update_id = 0
+
+local function acquire_chunk(surface, cx, cy)
+  local columns = chunk_pool[surface.index]
+  if not columns then columns = {}; chunk_pool[surface.index] = columns end
+  local column = columns[cx]
+  if not column then column = {}; columns[cx] = column end
+  local chunk = column[cy]
+  if not chunk then
+    chunk = {position = {x = cx * 32, y = cy * 32}, cx = cx, cy = cy,
+      surface_index = surface.index, references = 0}
+    column[cy] = chunk
+  end
+  chunk.references = chunk.references + 1
+  return chunk
+end
+
+local function release_chunk(chunk)
+  chunk.references = chunk.references - 1
+  if chunk.references > 0 then return end
+  local columns = chunk_pool[chunk.surface_index]
+  local column = columns[chunk.cx]
+  column[chunk.cy] = nil
+  if next(column) == nil then columns[chunk.cx] = nil end
+  if next(columns) == nil then chunk_pool[chunk.surface_index] = nil end
+end
+
 local function cache_samples(entry)
   local samples, chunks = {}, {}
   for _, offset in ipairs(sample_offsets) do
@@ -35,7 +63,7 @@ local function cache_samples(entry)
     if sample then
       sample.count = sample.count + 1
     else
-      sample = {position = {x = x, y = y}, count = 1}
+      sample = {chunk = acquire_chunk(entry.surface, cx, cy), count = 1}
       column[cy] = sample
       samples[#samples + 1] = sample
     end
@@ -45,8 +73,17 @@ end
 
 local function make_entry(entity)
   local entry = {entity = entity, surface = entity.surface, position = entity.position}
+  entry.center = acquire_chunk(entry.surface, math.floor(entry.position.x / 32), math.floor(entry.position.y / 32))
   cache_samples(entry)
   return entry
+end
+
+local function remove_entry(id)
+  local entry = absorbers[id]
+  if not entry then return end
+  release_chunk(entry.center)
+  for _, sample in ipairs(entry.samples) do release_chunk(sample.chunk) end
+  absorbers[id] = nil
 end
 
 local function is_absorber(entity)
@@ -57,6 +94,7 @@ local function track_entity(event)
   local entity = event.entity or event.created_entity
   if not entity or not entity.valid then return end
   if not is_absorber(entity) then return end
+  remove_entry(entity.unit_number)
   absorbers[entity.unit_number] = make_entry(entity)
 end
 
@@ -64,7 +102,7 @@ local function untrack_entity(event)
   local entity = event.entity
   if not entity or not entity.valid then return end
   if not is_absorber(entity) then return end
-  absorbers[entity.unit_number] = nil
+  remove_entry(entity.unit_number)
 end
 
 script.on_event(defines.events.on_built_entity, track_entity)
@@ -78,31 +116,47 @@ script.on_event(defines.events.on_robot_mined_entity, untrack_entity)
 script.on_event(defines.events.script_raised_destroy, untrack_entity)
 
 
+-- Values are shared only within one synchronous update and every write
+-- updates the cached value. The next update always reads fresh pollution.
+local function read_chunk(surface, chunk)
+  if chunk.update_id ~= update_id then
+    chunk.pollution = surface.get_pollution(chunk.position)
+    chunk.update_id = update_id
+  end
+  return chunk.pollution
+end
+
 local function absorb_pollution(entry)
   local energy = entry.entity.energy
   if not energy or energy <= 0 then return end
-  local surface, pos = entry.surface, entry.position
-  local center_pollution = surface.get_pollution(pos)
+  local surface = entry.surface
+  local center = entry.center
+  local center_pollution = read_chunk(surface, center)
   if center_pollution > 0 then
-    surface.pollute(pos, -math.min(effective_rate * 0.3, center_pollution))
+    local amount = math.min(effective_rate * 0.3, center_pollution)
+    surface.pollute(entry.position, -amount)
+    center.pollution = center_pollution - amount
   end
   for _, sample in ipairs(entry.samples) do
-    local pollution = surface.get_pollution(sample.position)
+    local chunk = sample.chunk
+    local pollution = read_chunk(surface, chunk)
     if pollution > 0 then
       local remaining = pollution
-      -- Keep the original repeated subtraction and zero clamp.
       for i = 1, sample.count do
         remaining = remaining - math.min(per_point, remaining)
       end
-      surface.pollute(sample.position, remaining - pollution)
+      local change = remaining - pollution
+      surface.pollute(chunk.position, change)
+      chunk.pollution = pollution + change
     end
   end
 end
 
 script.on_nth_tick(CHECK_INTERVAL, function()
+  update_id = update_id + 1
   for unit_number, entry in pairs(absorbers) do
     if not entry.entity.valid then
-      absorbers[unit_number] = nil
+      remove_entry(unit_number)
     else
       absorb_pollution(entry)
     end
@@ -111,6 +165,7 @@ end)
 
 local function scan_surfaces()
   absorbers = {}
+  chunk_pool = {}
   for _, surface in pairs(game.surfaces) do
     for _, entity in pairs(surface.find_entities_filtered{name = ABSORBER_NAME}) do
       if entity.valid then

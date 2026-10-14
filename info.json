@@ -1,10 +1,10 @@
 {
   "name": "pollution-absorber-improved",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "title": "Pollution Absorber: Improved",
   "author": "johnmart19 (fork), yanhanv (original)",
   "factorio_version": "2.0",
-  "description": "An updated fork of Pollution Absorber by yanhanv. Burns fuel to absorb nearby pollution, with fewer repeated pollution checks. Keeps the original absorption behavior.",
+  "description": "Industrial air-filter unit that burns chemical fuel to absorb nearby pollution. Fork of Pollution Absorber by yanhanv with fewer repeated pollution checks. Existing absorbers are retained.",
   "dependencies": [
     "base >= 2.0.0",
     "! pollution-absorber"
