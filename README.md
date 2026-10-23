@@ -1,5 +1,13 @@
 # Pollution Absorber: Improved
 
+## Factorio 2.1 compatibility and validation
+
+Multiplayer feature checks passed, including save/restart/rejoin and a final clean-release verification. The linked guide describes the exact actions, controls and limits.
+
+Current release **1.0.5** targets Factorio **2.1.23**. See [API fixes, this mod's verified tests and coverage limits](FACTORIO-2.1.md).
+
+Version 1.0.5 reduces the periodic script spike without changing absorption. In an isolated 34-unit saved-factory comparison, median update time fell from 0.333 to 0.211 ms at the saved pollution levels; the sampled p95 fell from 1.047 to 0.408 ms. [Methods, overlap stress results, exact behavior checks and discarded experiments](PERFORMANCE.md).
+
 A fork of [Pollution Absorber](https://mods.factorio.com/mod/pollution-absorber) by yanhanv for Factorio 2.0. An industrial air-filter unit that burns chemical fuel to absorb nearby pollution. It retains the original heat-pipe output.
 
 ## Changes
@@ -7,6 +15,7 @@ A fork of [Pollution Absorber](https://mods.factorio.com/mod/pollution-absorber)
 - Cache absorption sample positions instead of creating them every second.
 - Combine repeated checks of the same pollution chunk and share fresh readings between overlapping absorbers during each update.
 - Persist absorber and shared chunk references across saves; ordinary ticks need no script callback.
+- Reuse bound pollution functions during each absorber update and reduce Lua iteration overhead, preserving every read/write and its order.
 - Replace the flat drawing with a compact industrial air-filter unit: top fan, intake grilles and weathered metal housing, viewed from above and aligned with the existing footprint. The fan animation uses Factorio's native renderer and adds no Lua tick handler.
 
 Keeps the original 80-tile sampling radius, absorption rate, energy condition and once-per-second schedule. Existing entity, item and recipe names are retained.

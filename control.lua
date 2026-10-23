@@ -118,35 +118,42 @@ script.on_event(defines.events.script_raised_destroy, untrack_entity)
 
 -- Values are shared only within one synchronous update and every write
 -- updates the cached value. The next update always reads fresh pollution.
-local function read_chunk(surface, chunk)
+local function read_chunk(get_pollution, chunk)
   if chunk.update_id ~= update_id then
-    chunk.pollution = surface.get_pollution(chunk.position)
+    chunk.pollution = get_pollution(chunk.position)
     chunk.update_id = update_id
   end
   return chunk.pollution
 end
 
+local minimum = math.min
 local function absorb_pollution(entry)
   local energy = entry.entity.energy
   if not energy or energy <= 0 then return end
   local surface = entry.surface
+  local get_pollution = surface.get_pollution
+  local pollute
   local center = entry.center
-  local center_pollution = read_chunk(surface, center)
+  local center_pollution = read_chunk(get_pollution, center)
   if center_pollution > 0 then
-    local amount = math.min(effective_rate * 0.3, center_pollution)
-    surface.pollute(entry.position, -amount)
+    local amount = minimum(effective_rate * 0.3, center_pollution)
+    pollute = surface.pollute
+    pollute(entry.position, -amount)
     center.pollution = center_pollution - amount
   end
-  for _, sample in ipairs(entry.samples) do
+  local samples = entry.samples
+  for index = 1, #samples do
+    local sample = samples[index]
     local chunk = sample.chunk
-    local pollution = read_chunk(surface, chunk)
+    local pollution = read_chunk(get_pollution, chunk)
     if pollution > 0 then
       local remaining = pollution
       for i = 1, sample.count do
-        remaining = remaining - math.min(per_point, remaining)
+        remaining = remaining - minimum(per_point, remaining)
       end
       local change = remaining - pollution
-      surface.pollute(chunk.position, change)
+      if not pollute then pollute = surface.pollute end
+      pollute(chunk.position, change)
       chunk.pollution = pollution + change
     end
   end

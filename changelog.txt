@@ -1,4 +1,12 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.5
+Date: 2026-10-24
+  Optimizations:
+    - Reuse the bound pollution reader within each energized absorber update; acquire the writer only when pollution is present.
+    - Reduce Lua overhead with numeric iteration over the dense cached sample array and a local minimum function.
+    - Preserve every pollution write and its order, exact clamped arithmetic, fuel condition, radius, rate and 60-tick schedule.
+
+---------------------------------------------------------------------------------------------------
 Version: 1.0.4
 Date: 2026-10-23
   Compatibility:
