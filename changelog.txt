@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.0.4
+Date: 2026-10-23
+  Compatibility:
+    - Declare Factorio 2.1 compatibility.
+    - Migrate the absorber recipe to the 2.1 categories format.
+
+---------------------------------------------------------------------------------------------------
 Version: 1.0.3
 Date: 2026-10-14
   Bugfixes:

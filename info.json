@@ -1,12 +1,12 @@
 {
   "name": "pollution-absorber-improved",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "title": "Pollution Absorber: Improved",
   "author": "johnmart19 (fork), yanhanv (original)",
-  "factorio_version": "2.0",
-  "description": "Reworked animated industrial air filter with a rotating fan and working-state indicator. Burns fuel to absorb pollution using cached chunk sampling, with multiplayer save/load fixes and preservation of existing absorbers.",
+  "factorio_version": "2.1",
+  "description": "Industrial air-filter unit that burns chemical fuel to absorb nearby pollution. Fork of Pollution Absorber by yanhanv with fewer repeated pollution checks. Existing absorbers are retained.",
   "dependencies": [
-    "base >= 2.0.0",
+    "base >= 2.1.23",
     "! pollution-absorber"
   ],
   "homepage": "https://github.com/FactorioMods/pollution-absorber-improved"

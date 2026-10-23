@@ -5,7 +5,7 @@ data:extend({
     name = "pollution-absorber",
     icon = "__pollution-absorber-improved__/graphics/pollution-absorber-icon.png",
     icon_size = 64,
-    category = "crafting",
+    categories = {"crafting"},
     enabled = true,
     energy_required = 1,
     ingredients = {
